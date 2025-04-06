@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-from models.job import Job
+from app.models.job import Job
 
 
 class JobDataPayload(BaseModel):

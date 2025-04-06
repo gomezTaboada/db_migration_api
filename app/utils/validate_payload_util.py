@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from utils.constants import MAX_RECORDS_TO_INSERT
+from app.utils.constants import MAX_RECORDS_TO_INSERT
 
 def validate_payload_data(payload_data: list, max_records: int = MAX_RECORDS_TO_INSERT) -> None:
     number_of_records = len(payload_data)
