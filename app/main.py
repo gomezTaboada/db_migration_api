@@ -5,7 +5,7 @@ import uvicorn
 from app.engine.database_engine import (
     create_db_and_tables,
 )
-from app.routers import data_load_router
+from app.routers import data_load_router, file_load_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,6 +15,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(router=data_load_router.router)
+app.include_router(router=file_load_router.router)
+
 
 @app.get("/")
 async def root():
