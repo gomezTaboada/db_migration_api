@@ -12,7 +12,7 @@ from app.utils.validate_payload_util import validate_payload_data
 
 router = APIRouter(prefix="/data-load", tags=["data-load"])
 
-@router.post("/job")
+@router.post("/job", status_code=201)
 async def create_job(payload: JobDataPayload, session: SessionDep) -> dict:
     validate_payload_data(payload_data=payload.data)
     session.add_all(instances=payload.data)
