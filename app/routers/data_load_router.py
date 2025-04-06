@@ -21,10 +21,14 @@ router = APIRouter(prefix="/data-load", tags=["data-load"])
 
 @router.post("/job", status_code=201)
 async def create_job(payload: JobDataPayload, session: SessionDep) -> dict:
-    validate_payload_data(payload_data=payload.data)
-    bulk_insert_into_database(data=payload.data, session=session)
+    valid_records, invalid_records = validate_payload_data(model=Job, payload_data=payload.data)
+    bulk_insert_into_database(data=valid_records, session=session)
 
-    return {"message": f"Inserted records: {len(payload.data)}."}
+    return {
+        "message": f"Inserted records: {len(valid_records)}.",
+        "errors": invalid_records
+    }
+
 
 @router.get("/job")
 async def read_jobs(session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100) -> list[Job]:
@@ -34,10 +38,13 @@ async def read_jobs(session: SessionDep, offset: int = 0, limit: Annotated[int, 
 
 @router.post("/department", status_code=201)
 async def create_department(payload: DepartmentDataPayload, session: SessionDep) -> dict:
-    validate_payload_data(payload_data=payload.data)
-    bulk_insert_into_database(data=payload.data, session=session)
+    valid_records, invalid_records = validate_payload_data(model=Department, payload_data=payload.data)
+    bulk_insert_into_database(data=valid_records, session=session)
 
-    return {"message": f"Inserted records: {len(payload.data)}."}
+    return {
+        "message": f"Inserted records: {len(valid_records)}.",
+        "errors": invalid_records
+    }
 
 @router.get("/department")
 async def read_departments(session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100) -> list[Department]:
@@ -47,10 +54,13 @@ async def read_departments(session: SessionDep, offset: int = 0, limit: Annotate
 
 @router.post("/employee", status_code=201)
 async def create_employee(payload: EmployeeDataPayload, session: SessionDep) -> dict:
-    validate_payload_data(payload_data=payload.data)
-    bulk_insert_into_database(data=payload.data, session=session)
+    valid_records, invalid_records = validate_payload_data(model=Employee, payload_data=payload.data)
+    bulk_insert_into_database(data=valid_records, session=session)
 
-    return {"message": f"Inserted records: {len(payload.data)}."}
+    return {
+        "message": f"Inserted records: {len(valid_records)}.",
+        "errors": invalid_records
+    }
 
 @router.get("/employee")
 async def read_employees(session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100) -> list[Employee]:

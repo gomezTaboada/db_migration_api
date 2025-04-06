@@ -1,7 +1,28 @@
 from fastapi import HTTPException
 from app.utils.constants import MAX_RECORDS_TO_INSERT
+from typing import Type, Tuple
+from pydantic import ValidationError
+from sqlmodel import SQLModel
 
-def validate_payload_data(payload_data: list, max_records: int = MAX_RECORDS_TO_INSERT) -> None:
+def validate_records(model: Type[SQLModel], payload_data: list[dict]) -> Tuple[list[SQLModel], list[dict]]:
+    valid_records = []
+    invalid_records = []
+
+    for index, item in enumerate(payload_data):
+        try:
+            obj = model.model_validate(item)
+            valid_records.append(obj)
+
+        except ValidationError as e:
+            invalid_records.append({
+                "index": index,
+                "data": item,
+                "errors": e.errors()
+            })
+
+    return valid_records, invalid_records
+
+def validate_payload_data(model: SQLModel, payload_data: list, max_records: int = MAX_RECORDS_TO_INSERT) -> Tuple[list[SQLModel], list[dict]]:
     number_of_records = len(payload_data)
 
     if number_of_records == 0:
@@ -16,4 +37,6 @@ def validate_payload_data(payload_data: list, max_records: int = MAX_RECORDS_TO_
             detail=f"Invalid: Max number of records allowed is {max_records}."
         )
 
-    return
+    valid_records, invalid_records = validate_records(model=model, payload_data=payload_data)
+
+    return valid_records, invalid_records
