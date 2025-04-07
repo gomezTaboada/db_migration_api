@@ -1,2 +1,9 @@
 .vscode/
-.gitignore
+*.db
+__pycache__/
+.pytest_cache/
+.coverage
+inputs/
+.env
+*.json
+*.sh
