@@ -21,7 +21,6 @@ def get_table_class(table_name: str) -> SQLModel:
         )
 
 
-
 def load_data_from_files(files: List[str], table_name: str) -> dict:
     dtype = FILE_TABLE_DTYPE_MAPPING[table_name]
     headers = list(dtype.keys())

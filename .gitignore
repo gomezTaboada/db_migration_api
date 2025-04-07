@@ -4,3 +4,6 @@ __pycache__/
 .pytest_cache/
 .coverage
 inputs/
+.env
+*.json
+*.sh
