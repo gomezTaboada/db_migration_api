@@ -36,7 +36,7 @@ steps:
         '--allow-unauthenticated',
         '--service-account', '${_SERVICE_ACCOUNT}',
         '--add-cloudsql-instances', '${_CLOUD_SQL_URI}',
-        '--set-env-vars', 'ENVIRONMENT=CLOUD',
+        '--set-env-vars', 'ENVIRONMENT=CLOUD,STORAGE_PROJECT_ID=${PROJECT_ID}',
         '--set-secrets', 'DATABASE_CREDENTIALS=${_SECRET_NAME}:latest'
       ]
 
